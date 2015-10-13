@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>JAX Store Locations</title>
+    <style>
+      html, body, #map-canvas 
+      {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi?autoload={'modules':[{name:'maps',version:3,other_params:''}]}"></script>
+    <script type="text/javascript">
+
+    //List of coloured pins that can be used.
+    jaxPin = new google.maps.MarkerImage ("https://cdn.jaxtyres.com.au/media/favicon/default/favicon.gif")
+    greenPin = new google.maps.MarkerImage ("http://maps.google.com/mapfiles/ms/icons/green.png")
+    yellowPin = new google.maps.MarkerImage ("http://maps.google.com/mapfiles/ms/icons/yellow.png")
+
+    // First, create an object containing LatLng for each Store city.
+    var Store_Locations = {};
+    Store_Locations['Albury'] = {  center: new google.maps.LatLng(-36.079738, 146.923788),pinIcon: jaxPin};
+    Store_Locations['Artarmon'] = {  center: new google.maps.LatLng(-33.814605, 151.186299),pinIcon: jaxPin};
+    Store_Locations['Ashmore'] = {  center: new google.maps.LatLng(-27.979478, 153.378263),pinIcon: jaxPin};
+    Store_Locations['Aspley'] = {  center: new google.maps.LatLng(-27.364835, 153.016185),pinIcon: jaxPin};
+    Store_Locations['Ballarat'] = {  center: new google.maps.LatLng(-37.541206, 143.835465),pinIcon: jaxPin};
+    Store_Locations['Bankstown'] = {  center: new google.maps.LatLng(-33.934095, 151.032964),pinIcon: jaxPin};
+    Store_Locations['Bayswater North'] = {  center: new google.maps.LatLng(-37.823222, 145.288089),pinIcon: jaxPin};
+    Store_Locations['Bendigo'] = {  center: new google.maps.LatLng(-36.764055, 144.270375),pinIcon: jaxPin};
+    Store_Locations['Blacktown'] = {  center: new google.maps.LatLng(-33.752364, 150.914358),pinIcon: jaxPin};
+    Store_Locations['Bondi Junction'] = {  center: new google.maps.LatLng(-33.891935, 151.245138),pinIcon: jaxPin};
+    Store_Locations['Bowen Hills'] = {  center: new google.maps.LatLng(-27.443841, 153.038068),pinIcon: jaxPin};
+    Store_Locations['Brookvale'] = {  center: new google.maps.LatLng(-33.762323, 151.272856),pinIcon: jaxPin};
+    Store_Locations['Browns Plains'] = {  center: new google.maps.LatLng(-27.664556, 153.038748),pinIcon: jaxPin};
+    Store_Locations['Bundaberg'] = {  center: new google.maps.LatLng(-24.891921, 152.337243),pinIcon: jaxPin};
+    Store_Locations['Burleigh'] = {  center: new google.maps.LatLng(-28.101501, 153.438366),pinIcon: jaxPin};
+    Store_Locations['Cairns'] = {  center: new google.maps.LatLng(-16.938768, 145.746139),pinIcon: jaxPin};
+    Store_Locations['Caloundra'] = {  center: new google.maps.LatLng(-26.803842, 153.122571),pinIcon: jaxPin};
+    Store_Locations['Campbelltown'] = {  center: new google.maps.LatLng(-34.057118, 150.816432),pinIcon: jaxPin};
+    Store_Locations['Capalaba'] = {  center: new google.maps.LatLng(-27.525062, 153.193482),pinIcon: jaxPin};
+    Store_Locations['Castle Hill'] = {  center: new google.maps.LatLng(-33.732212, 151.006714),pinIcon: jaxPin};
+    Store_Locations['Caulfield South'] = {  center: new google.maps.LatLng(-37.887563, 145.022114),pinIcon: jaxPin};
+    Store_Locations['Coffs Harbour'] = {  center: new google.maps.LatLng(-30.296787, 153.113062),pinIcon: jaxPin};
+    Store_Locations['Edgeworth'] = {  center: new google.maps.LatLng(-32.924962, 151.625947),pinIcon: jaxPin};
+    Store_Locations['Epping'] = {  center: new google.maps.LatLng(-37.652423, 145.025069),pinIcon: jaxPin};
+    Store_Locations['Erina'] = {  center: new google.maps.LatLng(-33.438028, 151.394634),pinIcon: jaxPin};
+    Store_Locations['Essendon'] = {  center: new google.maps.LatLng(-37.747492, 144.911538),pinIcon: jaxPin};
+    Store_Locations['Fairy Meadow'] = {  center: new google.maps.LatLng(-34.385825, 150.894692),pinIcon: jaxPin};
+    Store_Locations['Frankston'] = {  center: new google.maps.LatLng(-38.123960, 145.133768),pinIcon: jaxPin};
+    Store_Locations['Fyshwick'] = {  center: new google.maps.LatLng(-35.322571, 149.174927),pinIcon: jaxPin};
+    Store_Locations['Geelong'] = {  center: new google.maps.LatLng(-38.152603, 144.357914),pinIcon: jaxPin};
+    Store_Locations['Gladstone'] = {  center: new google.maps.LatLng(-23.848956, 151.259880),pinIcon: jaxPin};
+    Store_Locations['Gosford West'] = {  center: new google.maps.LatLng(-33.426615, 151.316655),pinIcon: jaxPin};
+    Store_Locations['Haberfield'] = {  center: new google.maps.LatLng(-33.875807, 151.129300),pinIcon: jaxPin};
+    Store_Locations['Hoppers Crossing'] = {  center: new google.maps.LatLng(-37.880638, 144.702202),pinIcon: jaxPin};
+    Store_Locations['Ipswich West'] = {  center: new google.maps.LatLng(-27.616149, 152.751578),pinIcon: jaxPin};
+    Store_Locations['Kensington'] = {  center: new google.maps.LatLng(-33.919302, 151.226277),pinIcon: jaxPin};
+    Store_Locations['Launceston'] = {  center: new google.maps.LatLng(-41.444231, 147.137997),pinIcon: jaxPin};
+    Store_Locations['Lismore'] = {  center: new google.maps.LatLng(-28.802923, 153.275275),pinIcon: jaxPin};
+    Store_Locations['Liverpool'] = {  center: new google.maps.LatLng(-33.931249, 150.917041),pinIcon: jaxPin};
+    Store_Locations['Mackay'] = {  center: new google.maps.LatLng(-21.139224, 149.179926),pinIcon: jaxPin};
+    Store_Locations['Maitland'] = {  center: new google.maps.LatLng(-32.763984, 151.590641),pinIcon: jaxPin};
+    Store_Locations['Maroochydore'] = {  center: new google.maps.LatLng(-26.669328, 153.094655),pinIcon: jaxPin};
+    Store_Locations['Merrylands'] = {  center: new google.maps.LatLng(-33.835763, 150.984597),pinIcon: jaxPin};
+    Store_Locations['Mitchell'] = {  center: new google.maps.LatLng(-35.217020, 149.138327),pinIcon: jaxPin};
+    Store_Locations['Mitchelton'] = {  center: new google.maps.LatLng(-27.416096, 152.978837),pinIcon: jaxPin};
+    Store_Locations['Mittagong'] = {  center: new google.maps.LatLng(-34.447535, 150.434500),pinIcon: jaxPin};
+    Store_Locations['Mona Vale'] = {  center: new google.maps.LatLng(-33.676525, 151.307068),pinIcon: jaxPin};
+    Store_Locations['Moorabbin'] = {  center: new google.maps.LatLng(-37.934221, 145.038019),pinIcon: jaxPin};
+    Store_Locations['Narellan'] = {  center: new google.maps.LatLng(-34.040636, 150.750293),pinIcon: jaxPin};
+    Store_Locations['Newcastle'] = {  center: new google.maps.LatLng(-32.927767, 151.760033),pinIcon: jaxPin};
+    Store_Locations['Noosaville'] = {  center: new google.maps.LatLng(-26.411550, 153.043248),pinIcon: jaxPin};
+    Store_Locations['Nowra'] = {  center: new google.maps.LatLng(-34.886856, 150.600426),pinIcon: jaxPin};
+    Store_Locations['Orange'] = {  center: new google.maps.LatLng(-33.281333, 149.104517),pinIcon: jaxPin};
+    Store_Locations['Penrith'] = {  center: new google.maps.LatLng(-33.757910, 150.690508),pinIcon: jaxPin};
+    Store_Locations['Phillip'] = {  center: new google.maps.LatLng(-35.352878, 149.087711),pinIcon: jaxPin};
+    Store_Locations['Port Macquarie'] = {  center: new google.maps.LatLng(-31.431069, 152.888970),pinIcon: jaxPin};
+    Store_Locations['Prahran'] = {  center: new google.maps.LatLng(-37.853009, 145.001144),pinIcon: jaxPin};
+    Store_Locations['Preston'] = {  center: new google.maps.LatLng(-37.748549, 145.029317),pinIcon: jaxPin};
+    Store_Locations['Pymble'] = {  center: new google.maps.LatLng(-33.751472, 151.144378),pinIcon: jaxPin};
+    Store_Locations['Rockhampton'] = {  center: new google.maps.LatLng(-23.386436, 150.507772),pinIcon: jaxPin};
+    Store_Locations['Salamander Bay'] = {  center: new google.maps.LatLng(-32.727356, 152.079051),pinIcon: jaxPin};
+    Store_Locations['Slacks Creek'] = {  center: new google.maps.LatLng(-27.620933, 153.126046),pinIcon: jaxPin};
+    Store_Locations['Smithfield'] = {  center: new google.maps.LatLng(-33.839066, 150.926814),pinIcon: jaxPin};
+    Store_Locations['St Marys'] = {  center: new google.maps.LatLng(-33.760054, 150.780789),pinIcon: jaxPin};
+    Store_Locations['Sutherland'] = {  center: new google.maps.LatLng(-34.029976, 151.061741),pinIcon: jaxPin};
+    Store_Locations['Thornleigh'] = {  center: new google.maps.LatLng(-33.726817, 151.084455),pinIcon: jaxPin};
+    Store_Locations['Toowoomba'] = {  center: new google.maps.LatLng(-27.566152, 151.930673),pinIcon: jaxPin};
+    Store_Locations['Townsville'] = {  center: new google.maps.LatLng(-19.262549, 146.816589),pinIcon: jaxPin};
+    Store_Locations['Tweed Heads'] = {  center: new google.maps.LatLng(-28.192164, 153.540564),pinIcon: jaxPin};
+    Store_Locations['Warilla'] = {  center: new google.maps.LatLng(-34.559797, 150.859636),pinIcon: jaxPin};
+    Store_Locations['Warners Bay'] = {  center: new google.maps.LatLng(-32.966038, 151.646441),pinIcon: jaxPin};
+    Store_Locations['Windsor'] = {  center: new google.maps.LatLng(-33.626704, 150.837613),pinIcon: jaxPin};
+    Store_Locations['Wyong'] = {  center: new google.maps.LatLng(-33.294521, 151.419741),pinIcon: jaxPin};
+    Store_Locations['Yeerongpilly'] = {  center: new google.maps.LatLng(-27.531377, 153.012312),pinIcon: jaxPin};
+    Store_Locations['Taree'] = {  center: new google.maps.LatLng(-31.911054, 152.465516),pinIcon: jaxPin};
+    Store_Locations['Singleton'] = {  center: new google.maps.LatLng(-32.571091, 151.165117),pinIcon: jaxPin};
+    Store_Locations['Biggera Waters'] = {  center: new google.maps.LatLng(-27.932364, 153.384188),pinIcon: jaxPin};
+    Store_Locations['Hawthorn'] = {  center: new google.maps.LatLng(-37.823450, 145.040726),pinIcon: jaxPin};
+    Store_Locations['Waterloo'] = {  center: new google.maps.LatLng(-33.901040, 151.209122),pinIcon: jaxPin};
+    Store_Locations['Heatherbrae'] = {  center: new google.maps.LatLng(-32.791903, 151.725873),pinIcon: jaxPin};
+    Store_Locations['Wingham'] = {  center: new google.maps.LatLng(-31.869145, 152.374303),pinIcon: jaxPin};
+    //### Citydiscount WA
+    Store_Locations['BALCATTA'] = {  center: new google.maps.LatLng(-31.861000, 115.808825),pinIcon: greenPin};
+    Store_Locations['BELMONT'] = {  center: new google.maps.LatLng(-31.944864, 115.924833),pinIcon: greenPin};
+    Store_Locations['CANNING VALE'] = {  center: new google.maps.LatLng(-32.070235, 115.894092),pinIcon: greenPin};
+    Store_Locations['CANNINGTON'] = {  center: new google.maps.LatLng(-32.026868, 115.946317),pinIcon: greenPin};
+    Store_Locations['FREMANTLE'] = {  center: new google.maps.LatLng(-32.059634, 115.751246),pinIcon: greenPin};
+    Store_Locations['JOONDALUP'] = {  center: new google.maps.LatLng(-31.748238, 115.764234),pinIcon: greenPin};
+    Store_Locations['KELMSCOTT'] = {  center: new google.maps.LatLng(-32.115797, 116.016573),pinIcon: greenPin};
+    Store_Locations['MADDINGTON'] = {  center: new google.maps.LatLng(-32.054905, 115.979411),pinIcon: greenPin};
+    Store_Locations['MALAGA'] = {  center: new google.maps.LatLng(-31.851531, 115.881884),pinIcon: greenPin};
+    Store_Locations['MANDURAH'] = {  center: new google.maps.LatLng(-32.518868, 115.747339),pinIcon: greenPin};
+    Store_Locations['MARGARET RIVER'] = {  center: new google.maps.LatLng(-33.947012, 115.074343),pinIcon: greenPin};
+    Store_Locations['MIDLAND'] = {  center: new google.maps.LatLng(-31.8929576,116.0168974),pinIcon: greenPin};
+    Store_Locations['MORLEY (GALLERIA)'] = {  center: new google.maps.LatLng(-31.901036,115.903447),pinIcon: greenPin};
+    Store_Locations['MYAREE (MELVILLE)'] = {  center: new google.maps.LatLng(-32.041427,115.821769),pinIcon: greenPin};
+    Store_Locations['OSBORNE PARK'] = {  center: new google.maps.LatLng(-31.9073568,115.8135106),pinIcon: greenPin};
+    Store_Locations['ROCKINGHAM'] = {  center: new google.maps.LatLng(-32.2878989,115.7400589),pinIcon: greenPin};
+    Store_Locations['WANGARA'] = {  center: new google.maps.LatLng(-31.791587,115.815889),pinIcon: greenPin};
+    //### Citydiscount VIC
+    Store_Locations['BUNDOORA (KINGSBURY)'] = {  center: new google.maps.LatLng(-37.7202357,145.0360996),pinIcon: greenPin};
+    Store_Locations['GEELONG'] = {  center: new google.maps.LatLng(-38.138513,144.354825),pinIcon: greenPin};
+    Store_Locations['MITCHAM'] = {  center: new google.maps.LatLng(-37.81769,145.187686),pinIcon: greenPin};
+    Store_Locations['MOORABBIN'] = {  center: new google.maps.LatLng(-37.937523,145.06702),pinIcon: greenPin};
+    Store_Locations['THOMASTOWN'] = {  center: new google.maps.LatLng(-37.693482,145.025428),pinIcon: greenPin};
+    
+    //### Potential Stores
+Store_Locations['A'] = {  center: new google.maps.LatLng(-38.0205004,145.3092108),pinIcon: yellowPin};
+Store_Locations['B'] = {  center: new google.maps.LatLng(-37.9858559,145.2139098),pinIcon: yellowPin};
+Store_Locations['C'] = {  center: new google.maps.LatLng(-37.9524839,145.2733645),pinIcon: yellowPin};
+Store_Locations['D'] = {  center: new google.maps.LatLng(-38.0011943,145.3135544),pinIcon: yellowPin};
+Store_Locations['E'] = {  center: new google.maps.LatLng(-38.1127218,145.2723018),pinIcon: yellowPin};
+Store_Locations['F'] = {  center: new google.maps.LatLng(-37.8495019,145.3728313),pinIcon: yellowPin};
+Store_Locations['G'] = {  center: new google.maps.LatLng(-37.9730016,145.3493632),pinIcon: yellowPin};
+Store_Locations['Melton'] = {  center: new google.maps.LatLng(-37.6755474,144.6066091),pinIcon: yellowPin};
+Store_Locations['I'] = {  center: new google.maps.LatLng(-36.3972237,145.422446),pinIcon: yellowPin};
+Store_Locations['Nildura'] = {  center: new google.maps.LatLng(-34.2106142,142.1337274),pinIcon: yellowPin};
+Store_Locations['Morwell/Traralgon'] = {  center: new google.maps.LatLng(-38.2230923,146.4726589),pinIcon: yellowPin};
+Store_Locations['Warrnambool'] = {  center: new google.maps.LatLng(-38.3698481,142.4967701),pinIcon: yellowPin};
+Store_Locations['Warragul'] = {  center: new google.maps.LatLng(-38.1493277,145.9271721),pinIcon: yellowPin};
+Store_Locations['N'] = {  center: new google.maps.LatLng(-41.1757458,146.3448193),pinIcon: yellowPin};
+Store_Locations['Alice Springs'] = {  center: new google.maps.LatLng(-23.6995203,133.8807109),pinIcon: yellowPin};
+Store_Locations['Albany'] = {  center: new google.maps.LatLng(-34.9569615,117.8992693),pinIcon: yellowPin};
+Store_Locations['Q'] = {  center: new google.maps.LatLng(-30.7561498,121.5308646),pinIcon: yellowPin};
+Store_Locations['R'] = {  center: new google.maps.LatLng(-33.65867,115.3424263),pinIcon: yellowPin};
+Store_Locations['S'] = {  center: new google.maps.LatLng(-33.4188041,149.5790148),pinIcon: yellowPin};
+Store_Locations['Dubbo'] = {  center: new google.maps.LatLng(-32.2476856,148.6087379),pinIcon: yellowPin};
+Store_Locations['U'] = {  center: new google.maps.LatLng(-31.7686922,115.9890908),pinIcon: yellowPin};
+Store_Locations['Geraldton'] = {  center: new google.maps.LatLng(-28.7763846,114.613945),pinIcon: yellowPin};
+Store_Locations['Tamworth'] = {  center: new google.maps.LatLng(-31.1228199,150.92518),pinIcon: yellowPin};
+Store_Locations['Z'] = {  center: new google.maps.LatLng(-35.133305,147.3787909),pinIcon: yellowPin};
+Store_Locations['Hervey Bay'] = {  center: new google.maps.LatLng(-25.3371041,152.7912449),pinIcon: yellowPin};
+Store_Locations['Z'] = {  center: new google.maps.LatLng(-33.3749775,115.6899435),pinIcon: yellowPin};
+Store_Locations['Darwin'] = {  center: new google.maps.LatLng(-12.5948609,131.0078759),pinIcon: yellowPin};
+Store_Locations['1B'] = {  center: new google.maps.LatLng(-42.8473679,147.295743),pinIcon: yellowPin};
+Store_Locations['1C'] = {  center: new google.maps.LatLng(-35.4154348,149.0647455),pinIcon: yellowPin};
+Store_Locations['1D'] = {  center: new google.maps.LatLng(-35.2439851,149.0648651),pinIcon: yellowPin};
+Store_Locations['1E'] = {  center: new google.maps.LatLng(-32.2337579,152.5331934),pinIcon: yellowPin};
+
+    
+
+
+
+//##########  Marker and radius functions  ###########
+//##########  Draws the movable marker and radius circles  ###########
+      function DistanceWidget(map) {
+      this.set('map', map);
+      this.set('position', map.getCenter());
+      var marker = new google.maps.Marker({
+        draggable: true,
+        title: 'New store'
+      });
+        marker.bindTo('map', this);
+        marker.bindTo('position', this);
+        // Create a new radius widget
+        var radiusWidget = new RadiusWidget();
+        radiusWidget.bindTo('map', this);
+        radiusWidget.bindTo('center', this, 'position');
+      }
+      DistanceWidget.prototype = new google.maps.MVCObject();
+      function RadiusWidget() {
+      var circle = new google.maps.Circle({
+        strokeWeight: 1
+      });
+      // Set the distance property value, default to 5km.
+      this.set('distance', 5);
+      // Bind the RadiusWidget bounds property to the circle bounds property.
+      this.bindTo('bounds', circle);
+      // Bind the circle center to the RadiusWidget center property
+      circle.bindTo('center', this);
+      circle.bindTo('map', this);
+      circle.bindTo('radius', this);
+       }
+       RadiusWidget.prototype = new google.maps.MVCObject();
+       RadiusWidget.prototype.distance_changed = function() {
+       this.set('radius', this.get('distance') * 1000);
+       };
+// ##############################
+
+
+    var store_location_map;
+    function initialize() 
+    {
+      var mapOptions = 
+      {
+        zoom: 5,
+        //center: new google.maps.LatLng(-33.821914, 151.086166),
+        center: new google.maps.LatLng(-27.620600, 142.906862),
+        mapTypeId: google.maps.MapTypeId.MAP
+      };
+      var map = new google.maps.Map(document.getElementById('map-canvas'),mapOptions);
+      
+      for (var city in Store_Locations) 
+      {
+          //Draws All store Markers Pins, in the array of listed stores.
+          //Draw a marker on map with Store name
+        Store_Marker = new google.maps.Marker(
+        {
+          //draggable: true,
+          //icon: yellowPin,
+          icon: Store_Locations[city].pinIcon,
+          position: Store_Locations[city].center,
+          map: map,
+          title: city
+        });
+    
+        // Add the 5km circle for this store to the map.
+        var Store_5km_radius = 
+        {
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.3,
+          strokeWeight: 1,
+          fillColor: '#FF0000',
+          fillOpacity: 0.15,
+          map: map,
+          center: Store_Locations[city].center,
+          radius: 5000
+        };
+        store_location_map = new google.maps.Circle(Store_5km_radius);
+        var Store_10km_radius = 
+        {
+          strokeColor: '#00AA00',
+          strokeOpacity: 0.3,
+          strokeWeight: 1,
+          fillColor: '#00AA00',
+          fillOpacity: 0.05,
+          map: map,
+          center: Store_Locations[city].center,
+          radius: 10000
+        };
+        store_location_map = new google.maps.Circle(Store_10km_radius);
+      }
+      //var distanceWidget = new DistanceWidget(map);
+      //##### Draws a set of moveable map Markers
+      var newStore1 = new DistanceWidget(map);
+      var newStore2 = new DistanceWidget(map);
+      var newStore3 = new DistanceWidget(map);
+      var newStore3 = new DistanceWidget(map);
+      var newStore4 = new DistanceWidget(map);
+      var newStore5 = new DistanceWidget(map);
+
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
